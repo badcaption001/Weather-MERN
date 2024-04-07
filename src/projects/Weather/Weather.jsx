@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import 'dotenv/config';
 import Navbar from '../../components/Navbar';
 import './Weather.css';
 
@@ -71,7 +72,7 @@ function Weather() {
     setBreakText('Loading...');
 
     try {
-      let geoResponse = await fetch(`https://geocode.maps.co/search?q=${location}&api_key=6606bc0f56c4b648081779zib035fe9`);
+      let geoResponse = await fetch(`https://geocode.maps.co/search?q=${location}&api_key=process.env.GEOCODE_API_KEY`);
       let geoData = await geoResponse.json();
 
       if (geoData.length === 0) {
@@ -83,7 +84,7 @@ function Weather() {
         const latitude = geoData[0].lat;
         const longitude = geoData[0].lon;
 
-        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=b92f526a0eaa312612656428e13155db`);
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=OPENWEATHER_API_KEY`);
         let data = await response.json();
         data.sys.sunrise = decodeUNIX(data.sys.sunrise);
         data.sys.sunset = decodeUNIX(data.sys.sunset);
